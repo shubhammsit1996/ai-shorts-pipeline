@@ -1,0 +1,46 @@
+name: Auto Generate AI Video
+
+on:
+  workflow_dispatch:      # Manual trigger
+  schedule:
+    - cron: "0 */6 * * *" # Every 6 hours (optional)
+
+jobs:
+  generate-video:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.10"
+
+      - name: Install dependencies
+        run: |
+          pip install -r requirements.txt
+
+      - name: Create env file dynamically
+        run: |
+          echo "OPENAI_API_KEY=${{ secrets.OPENAI_API_KEY }}" >> .env
+          echo "PIKA_API_KEY=${{ secrets.PIKA_API_KEY }}" >> .env
+          echo "ELEVENLABS_API_KEY=${{ secrets.ELEVENLABS_API_KEY }}" >> .env
+          echo "GOOGLE_CREDENTIALS='${{ secrets.GOOGLE_CREDENTIALS }}'" >> .env
+
+      - name: Run Jupyter Notebook
+        run: |
+          jupyter nbconvert --to notebook --execute video_pipeline.ipynb --output output.ipynb
+
+      - name: Upload output notebook as artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: pipeline-output
+          path: output.ipynb
+
+      - name: Upload generated video
+        uses: actions/upload-artifact@v4
+        with:
+          name: final-video
+          path: final_video.mp4
