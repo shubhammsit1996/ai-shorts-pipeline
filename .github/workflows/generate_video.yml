@@ -27,10 +27,8 @@ jobs:
           echo "OPENAI_API_KEY=${{ secrets.OPENAI_API_KEY }}" >> .env
           echo "PIKA_API_KEY=${{ secrets.PIKA_API_KEY }}" >> .env
           echo "ELEVENLABS_API_KEY=${{ secrets.ELEVENLABS_API_KEY }}" >> .env
-          # FINAL FIX: Use sed/awk to securely encode the JSON string
-          # This command ensures the whole secret value is wrapped in single quotes 
-          # which is safer for multiline strings, then strips the unwanted shell-added quotes.
-          echo "GOOGLE_CREDENTIALS=${{ secrets.GOOGLE_CREDENTIALS }}" >> .env
+          # FINAL FIX: Decode Base64 directly into the .env file
+          echo "GOOGLE_CREDENTIALS=$(echo '${{ secrets.GOOGLE_CREDENTIALS }}' | base64 -d)" >> .env
 
       - name: Run Jupyter Notebook
         run: |
