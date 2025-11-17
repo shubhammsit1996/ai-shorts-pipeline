@@ -27,7 +27,8 @@ jobs:
           echo "OPENAI_API_KEY=${{ secrets.OPENAI_API_KEY }}" >> .env
           echo "PIKA_API_KEY=${{ secrets.PIKA_API_KEY }}" >> .env
           echo "ELEVENLABS_API_KEY=${{ secrets.ELEVENLABS_API_KEY }}" >> .env
-          echo "GOOGLE_CREDENTIALS=${{ secrets.GOOGLE_CREDENTIALS }}" >> .env
+          # FIX APPLIED HERE: Using printf to safely output the JSON string
+          printf 'GOOGLE_CREDENTIALS="%s"\n' "${{ secrets.GOOGLE_CREDENTIALS }}" >> .env
 
       - name: Run Jupyter Notebook
         run: |
