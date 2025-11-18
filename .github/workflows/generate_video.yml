@@ -50,8 +50,8 @@ jobs:
 
       - name: Run Jupyter Notebook
         run: |
-          # Use nbclient directly to execute the notebook
-          python -m nbclient --execute video_pipeline.ipynb --to notebook --output output.ipynb
+          # The correct command for your environment: use the shell wrapper utility.
+          jupyter nbconvert --to notebook --execute video_pipeline.ipynb --output output.ipynb
 
       - name: Upload output notebook as artifact
         uses: actions/upload-artifact@v4
