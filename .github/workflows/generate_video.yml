@@ -26,7 +26,7 @@ jobs:
           sudo apt-get update && sudo apt-get install -y ffmpeg
           
           # 2. Use the simple 'pip' command provided by the runner's shell
-          pip install python-dotenv openai google-auth google-auth-oauthlib google-auth-httplib2 google-api-python-client moviepy requests nbconvert ipykernel runwayml nbclient
+          pip install python-dotenv openai google-auth google-auth-oauthlib google-auth-httplib2 google-api-python-client "moviepy<2.0.0" requests nbconvert ipykernel runwayml nbclient
           
           # 3. Install nbclient package to run the notebook
           pip install nbclient 
