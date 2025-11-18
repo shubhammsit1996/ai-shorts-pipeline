@@ -20,7 +20,17 @@ jobs:
 
       - name: Install dependencies
         run: |
-          pip install -r requirements.txt
+          # 1. Install pip packages required by the notebook
+          pip install python-dotenv openai google-auth google-auth-oauthlib google-auth-httplib2 google-api-python-client moviepy requests nbconvert ipykernel
+          
+          # 2. Install nbclient package to run the notebook
+          pip install nbclient 
+          
+          # 3. If you use the runwayml SDK (the latest attempt), install it here too:
+          pip install runwayml 
+          
+          # 4. Optional: Check for moviepy's core dependency (FFmpeg is usually pre-installed)
+          sudo apt-get update && sudo apt-get install -y ffmpeg
 
       - name: Create env file dynamically
         run: |
