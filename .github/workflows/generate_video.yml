@@ -24,11 +24,11 @@ jobs:
           echo "Installing system and Python dependencies..."
           
           # 1. Install FFmpeg (External dependency)
-          sudo apt-get update
-          sudo apt-get install -y ffmpeg
+          sudo apt-get update && sudo apt-get install -y ffmpeg
           
-          # 2. Install ALL Python packages in one command for environment consistency
-          pip install python-dotenv openai google-auth google-auth-oauthlib google-auth-httplib2 google-api-python-client moviepy requests nbconvert ipykernel runwayml nbclient
+          # 2. Force pip to run using the correct virtual environment's Python
+          # This ensures packages are installed into the SAME location used for execution.
+          $VIRTUAL_ENV/bin/python -m pip install python-dotenv openai google-auth google-auth-oauthlib google-auth-httplib2 google-api-python-client moviepy requests nbconvert ipykernel runwayml nbclient
           
           # 3. Install nbclient package to run the notebook
           pip install nbclient 
