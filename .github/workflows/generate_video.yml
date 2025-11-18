@@ -48,12 +48,11 @@ jobs:
 
       - name: Run Jupyter Notebook
         run: |
-          # The definitive fix: Activate the virtual environment's path before calling jupyter.
-          # This should force the shell to find the moviepy module.
-          source $VIRTUAL_ENV/bin/activate
-          
-          # Execute nbconvert using the standard shell command
-          jupyter nbconvert --to notebook --execute video_pipeline.ipynb --output output.ipynb
+          # Use the path to the Python executable directly to run the module.
+          # We revert to the correct python -m nbconvert command which failed only because
+          # the previous installation was not found. Now that the installation is fixed,
+          # this command should work.
+          $VIRTUAL_ENV/bin/python -m nbconvert --to notebook --execute video_pipeline.ipynb --output output.ipynb
 
       - name: Upload output notebook as artifact
         uses: actions/upload-artifact@v4
