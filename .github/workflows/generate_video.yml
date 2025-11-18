@@ -23,12 +23,12 @@ jobs:
 
           echo "Installing system and Python dependencies..."
           
-          # 1. Install FFmpeg (system dependency for MoviePy)
+          # 1. Install FFmpeg (External dependency)
           sudo apt-get update
           sudo apt-get install -y ffmpeg
           
-          # 2. Install ALL Python packages in one single command for environment consistency
-          pip install python-dotenv openai google-auth google-auth-oauthlib google-auth-httplib2 google-api-python-client moviepy requests nbconvert ipykernel nbclient runwayml
+          # 2. Install ALL Python packages in one command for environment consistency
+          pip install python-dotenv openai google-auth google-auth-oauthlib google-auth-httplib2 google-api-python-client moviepy requests nbconvert ipykernel runwayml nbclient
           
           # 3. Install nbclient package to run the notebook
           pip install nbclient 
@@ -50,8 +50,9 @@ jobs:
 
       - name: Run Jupyter Notebook
         run: |
-          # The correct command for your environment: use the shell wrapper utility.
-          jupyter nbconvert --to notebook --execute video_pipeline.ipynb --output output.ipynb
+          # The execution command MUST use the full path to the Python interpreter 
+          # to find the packages installed by the previous 'pip install'.
+          $VIRTUAL_ENV/bin/python -m jupyter nbconvert --to notebook --execute video_pipeline.ipynb --output output.ipynb
 
       - name: Upload output notebook as artifact
         uses: actions/upload-artifact@v4
