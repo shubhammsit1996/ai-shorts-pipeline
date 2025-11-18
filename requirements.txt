@@ -8,4 +8,4 @@ moviepy
 requests
 ipykernel
 nbconvert
-runway-python-sdk
+runwayml
