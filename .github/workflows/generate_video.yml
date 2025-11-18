@@ -20,15 +20,13 @@ jobs:
 
       - name: Install dependencies
         run: |
-
           echo "Installing system and Python dependencies..."
           
-          # 1. Install FFmpeg (External dependency)
+          # 1. Install FFmpeg
           sudo apt-get update && sudo apt-get install -y ffmpeg
           
-          # 2. Force pip to run using the correct virtual environment's Python
-          # This ensures packages are installed into the SAME location used for execution.
-          $VIRTUAL_ENV/bin/python -m pip install python-dotenv openai google-auth google-auth-oauthlib google-auth-httplib2 google-api-python-client moviepy requests nbconvert ipykernel runwayml nbclient
+          # 2. Install Python packages using the standard pip command
+          pip install python-dotenv openai google-auth google-auth-oauthlib google-auth-httplib2 google-api-python-client moviepy requests nbconvert ipykernel runwayml nbclient
           
           # 3. Install nbclient package to run the notebook
           pip install nbclient 
@@ -50,9 +48,12 @@ jobs:
 
       - name: Run Jupyter Notebook
         run: |
-          # The execution command remains the same, but it will now find the modules
-          # because they were installed by the previous step's explicit path.
-          $VIRTUAL_ENV/bin/python -m nbconvert --to notebook --execute video_pipeline.ipynb --output output.ipynb
+          # The definitive fix: Activate the virtual environment's path before calling jupyter.
+          # This should force the shell to find the moviepy module.
+          source $VIRTUAL_ENV/bin/activate
+          
+          # Execute nbconvert using the standard shell command
+          jupyter nbconvert --to notebook --execute video_pipeline.ipynb --output output.ipynb
 
       - name: Upload output notebook as artifact
         uses: actions/upload-artifact@v4
