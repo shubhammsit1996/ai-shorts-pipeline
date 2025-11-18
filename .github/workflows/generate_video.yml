@@ -50,9 +50,8 @@ jobs:
 
       - name: Run Jupyter Notebook
         run: |
-          # The execution command MUST use the full path to the Python interpreter 
-          # to find the packages installed by the previous 'pip install'.
-          $VIRTUAL_ENV/bin/python -m jupyter nbconvert --to notebook --execute video_pipeline.ipynb --output output.ipynb
+          # Use the 'nbconvert' module directly, which resolves the 'jupyter' dependency error
+          $VIRTUAL_ENV/bin/python -m nbconvert --to notebook --execute video_pipeline.ipynb --output output.ipynb
 
       - name: Upload output notebook as artifact
         uses: actions/upload-artifact@v4
