@@ -50,7 +50,9 @@ jobs:
 
       - name: Run Jupyter Notebook
         run: |
-          jupyter nbconvert --to notebook --execute video_pipeline.ipynb --output output.ipynb
+          # The key fix: Execute nbconvert as a module of the Python environment 
+          # to ensure it finds all installed packages (like moviepy).
+          python -m jupyter nbconvert --to notebook --execute video_pipeline.ipynb --output output.ipynb
 
       - name: Upload output notebook as artifact
         uses: actions/upload-artifact@v4
