@@ -26,6 +26,7 @@ jobs:
         run: |
           echo "OPENAI_API_KEY=${{ secrets.OPENAI_API_KEY }}" >> .env
           echo "PIKA_API_KEY=${{ secrets.PIKA_API_KEY }}" >> .env
+          echo "RUNWAYML_API_SECRET=${{ secrets.RUNWAYML_API_SECRET }}" >> .env
           echo "ELEVENLABS_API_KEY=${{ secrets.ELEVENLABS_API_KEY }}" >> .env
           # FINAL FIX: Decode Base64 directly into the .env file
           echo "GOOGLE_CREDENTIALS=$(echo '${{ secrets.GOOGLE_CREDENTIALS }}' | base64 -d)" >> .env
