@@ -50,7 +50,8 @@ jobs:
 
       - name: Run Jupyter Notebook
         run: |
-          # Use the 'nbconvert' module directly, which resolves the 'jupyter' dependency error
+          # The execution command remains the same, but it will now find the modules
+          # because they were installed by the previous step's explicit path.
           $VIRTUAL_ENV/bin/python -m nbconvert --to notebook --execute video_pipeline.ipynb --output output.ipynb
 
       - name: Upload output notebook as artifact
