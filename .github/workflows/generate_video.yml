@@ -21,14 +21,14 @@ jobs:
       - name: Install dependencies
         run: |
 
-          echo "Installing external dependency (FFmpeg) for MoviePy..."
-          # 1. Install FFmpeg (required by moviepy for video processing)
-          # Note: sudo is needed for system package management
+          echo "Installing system and Python dependencies..."
+          
+          # 1. Install FFmpeg (system dependency for MoviePy)
           sudo apt-get update
           sudo apt-get install -y ffmpeg
-
-          # 2. Install pip packages required by the notebook
-          pip install python-dotenv openai google-auth google-auth-oauthlib google-auth-httplib2 google-api-python-client moviepy requests nbconvert ipykernel
+          
+          # 2. Install ALL Python packages in one single command for environment consistency
+          pip install python-dotenv openai google-auth google-auth-oauthlib google-auth-httplib2 google-api-python-client moviepy requests nbconvert ipykernel nbclient runwayml
           
           # 3. Install nbclient package to run the notebook
           pip install nbclient 
